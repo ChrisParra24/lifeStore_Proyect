@@ -5,7 +5,7 @@ from lifestore_file import lifestore_products,lifestore_sales,lifestore_searches
 # lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund (1 for true or 0 to false)]
 # lifestore_products = [id_product, name, price, category, stock]
 
-from consignas import primer_consigna
+from consignas import primer_consigna, tercer_consigna
 
 ########################################################################################################################
 # Definimos los usuarios y contraseñas que podrán acceder a nuestro sistema de Gerencia de Venta
@@ -47,7 +47,8 @@ while estado_programa == 'ejecutando':
             elif opcion == 2:
                 print('Opcion 2 seleccionada')
             elif opcion == 3:
-                print('Opcion 3 seleccionada')
+                print('\nLa tercer consigna es:')
+                tercer_consigna(lifestore_products,lifestore_sales)
             elif opcion == 4:
                 print(f"\n{mensaje_despedida}")
                 exit()

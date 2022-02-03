@@ -35,3 +35,53 @@ def primer_consigna(productos,lista2,tamaño,palabra):
     print(f'\n\nLos {tamaño} productos menos {palabra} son los siguientes:')
     for producto in productos_impresion_menores:
         print(f'Producto: {producto[1]} con {producto[2]} ventas')
+
+def regresa_años(ventas):
+    años = []
+    for venta in ventas:
+        #obtenemos la fecha completa
+        fecha = venta[3]
+        año = fecha[6:len(fecha)]
+        año = int(año)
+        if len(años) == 0:
+            años.append(año)
+        else:
+            if año not in años:
+                años.append(año)
+    return años
+
+# Funcion que nos regresa el año y se le pasa una cadena    
+def extrae_año(fecha):
+    año = fecha[6:len(fecha)]
+    return int(año)
+
+# Funcion que nos regresa el mes y se le pasa una cadena
+def extrae_mes(fecha):
+    mes = fecha[3:5]
+    return int(mes)
+
+# Funcion que resolvera la tercer consigna sobre los ingresos totales anuales, mensuales
+def tercer_consigna(productos,ventas):
+    ventas_totales_por_year = []
+    # Vamos a obtener los años de las ventas, para poder ir clasificando por año las venta
+    years = regresa_años(ventas)
+    # Para sacar la venta de un año debemos de primero sacar la cantidad del producto en cuestion
+    # luego esa cantidad la multiplicamos por el precio del producto
+    # Los productos que no tengan ventas de todas formas no afectaran la suma
+    for year in years:
+        total = 0
+        for producto in productos:
+            cantidad = 0
+            for venta in ventas:
+                # Extraemos el año de la venta en cuestion
+                year_venta = extrae_año(venta[3])
+                # Comparamos si la venta fue del producto en cuestion y comparamos si el año de la venta coincide
+                # con nuestra lista con los años de nuestra BD
+                if producto[0] == venta[1] and year == year_venta:
+                    cantidad += 1
+            # Vamos haciendo la suma por año
+            total += cantidad * producto[2]
+        # Una vez que se haya acabado de iterar sobre los productos podemos agregar en nuestra lista
+        # una lista del año con el total respectivo
+        ventas_totales_por_year.append([year,total])
+    print(ventas_totales_por_year)
