@@ -36,6 +36,15 @@ def primer_consigna(productos,lista2,tamaño,palabra):
     for producto in productos_impresion_menores:
         print(f'Producto: {producto[1]} con {producto[2]} ventas')
 
+# Funcion que limpia la lista
+def limpia_lista(lista,index,tamaño):
+    lista_limpia = []
+    for elemento in lista:
+        if elemento[2] != 0:
+            lista_limpia.append(elemento)
+    return lista_limpia
+
+# Funcion que nos regresa los años
 def regresa_años(ventas):
     años = []
     for venta in ventas:
@@ -85,3 +94,22 @@ def tercer_consigna(productos,ventas):
         # una lista del año con el total respectivo
         ventas_totales_por_year.append([year,total])
     print(ventas_totales_por_year)
+    print('\n')
+    #A partir de aqui empezamos a ver las ventas por mes y por año
+    meses = [1,2,3,4,5,6,7,8,9,10,11,12]
+    ventas_por_meses = []
+    for year in years:
+        for mes in meses:
+            total = 0
+            for producto in productos:
+                cantidad = 0
+                for venta in ventas:
+                    year_venta = extrae_año(venta[3])
+                    mes_venta = extrae_mes(venta[3])
+                    if producto[0] == venta[1] and year == year_venta and mes == mes_venta:
+                        cantidad += 1
+                total += cantidad * producto[2]
+            ventas_por_meses.append([mes,year,total])
+    # Debemos de limpiar nuestra lista
+    ventas_por_meses = limpia_lista(lista=ventas_por_meses,index=2,tamaño=len(ventas_por_meses))
+    print(ventas_por_meses)
