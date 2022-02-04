@@ -1,10 +1,21 @@
 # Esta funcion nos sirve como parametro para ordenar por la cantidad de cada producto
+from tkinter import Y
+
+
 def myKey(e):
     return e[2]
 
+# Funcion que limpia la lista
+def limpia_lista(lista):
+    lista_limpia = []
+    for elemento in lista:
+        if elemento[2] != 0:
+            lista_limpia.append(elemento)
+    return lista_limpia
+
 
 # Esta funcion nos sirve para resolver la primer consigna, solo basta con especificar los tamaños por este caso solo son dos
-def primer_consigna(productos,lista2,tamaño,palabra):
+def primer_consigna(productos,lista2,tamaño,palabra,palabra2):
     productos_maximos = []
      
     for producto in productos:
@@ -15,34 +26,27 @@ def primer_consigna(productos,lista2,tamaño,palabra):
             # en la lista2 
             if producto[0] == elemento[1]:
                 cantidad += 1
-        # Agregamos una lista en nuestra lista, los datos que ocupamos son el id_product, name y la cantidad de ese producto
+        # Agregamos una lista en nuestra lista, los datos que ocupamos son el id_product, name, la cantidad, el precio de ese producto
         # que aparece en la lista2
-        productos_maximos.append([producto[0],producto[1],cantidad])
+        productos_maximos.append([producto[0],producto[1],cantidad,producto[2]])
     
     # Aqui lo que hacemos es acomodar nuestra lista por medio de la cantidad de manera
     # descendente
     productos_maximos.sort(reverse=True,key=myKey)
-    
+    productos_sin0 = limpia_lista(lista=productos_maximos)
     # Tenemos que imprimir los datos que nos piden en la consigna
-    productos_impresion = productos_maximos[0:tamaño]
-    productos_impresion_menores = productos_maximos[len(productos_maximos)-(tamaño+1):len(productos_maximos)-1]
+    productos_impresion = productos_sin0[0:tamaño]
+    productos_impresion_menores = productos_sin0[len(productos_sin0)-(tamaño+1):len(productos_sin0)-1]
     # imprimimos los n=tamaño productos
     print(f'\n\nLos {tamaño} productos mas {palabra} son los siguientes:')
     for producto in productos_impresion:
-        print(f'Producto: {producto[1]} con {producto[2]} ventas')
+        print(f'Producto: {producto[1]} con {producto[2]} {palabra2}')
         
-    # imprimimos los n=tamaño productos
+    # # imprimimos los n=tamaño productos
     print(f'\n\nLos {tamaño} productos menos {palabra} son los siguientes:')
     for producto in productos_impresion_menores:
-        print(f'Producto: {producto[1]} con {producto[2]} ventas')
-
-# Funcion que limpia la lista
-def limpia_lista(lista,index,tamaño):
-    lista_limpia = []
-    for elemento in lista:
-        if elemento[2] != 0:
-            lista_limpia.append(elemento)
-    return lista_limpia
+        print(f'Producto: {producto[1]} con {producto[2]} {palabra2}')
+    return productos_sin0
 
 # Funcion que nos regresa los años
 def regresa_años(ventas):
@@ -93,10 +97,11 @@ def tercer_consigna(productos,ventas):
         # Una vez que se haya acabado de iterar sobre los productos podemos agregar en nuestra lista
         # una lista del año con el total respectivo
         ventas_totales_por_year.append([year,total])
-    print(ventas_totales_por_year)
-    print('\n')
+    print('Las ingresos por año son los siguientes:')
+    for año in ventas_totales_por_year:
+        print(f'El año {año[0]} tuvo ingresos de ${año[1]}')
     #A partir de aqui empezamos a ver las ventas por mes y por año
-    meses = [1,2,3,4,5,6,7,8,9,10,11,12]
+    meses = [[1,'Enero'],[2,'Febrero'],[3,'Marzo'],[4,'Abril'],[5,'Mayo'],[6,'Junio'],[7,'Julio'],[8,'Agosto'],[9,'Septiembre'],[10,'Octubre'],[11,'Noviembre'],[12,'Diciembre']]
     ventas_por_meses = []
     for year in years:
         for mes in meses:
@@ -106,10 +111,22 @@ def tercer_consigna(productos,ventas):
                 for venta in ventas:
                     year_venta = extrae_año(venta[3])
                     mes_venta = extrae_mes(venta[3])
-                    if producto[0] == venta[1] and year == year_venta and mes == mes_venta:
+                    if producto[0] == venta[1] and year == year_venta and mes[0] == mes_venta:
                         cantidad += 1
                 total += cantidad * producto[2]
-            ventas_por_meses.append([mes,year,total])
+            ventas_por_meses.append([mes[1],year,total])
     # Debemos de limpiar nuestra lista
-    ventas_por_meses = limpia_lista(lista=ventas_por_meses,index=2,tamaño=len(ventas_por_meses))
-    print(ventas_por_meses)
+    ventas_por_meses = limpia_lista(lista=ventas_por_meses)
+    print()
+    print('Los ingresos que se tuvieron por mes son los siguientes: ')
+    for venta_por_mes in ventas_por_meses:
+        print(f'En {venta_por_mes[0]} del {venta_por_mes[1]} se tuvo ingresos por ${venta_por_mes[2]}')
+    
+    # Sacamos las ventas promedio mensual de cada año
+    print()
+    for year in ventas_totales_por_year:
+        contador = 0
+        for venta_por_mes in ventas_por_meses:
+            if year[0] == venta_por_mes[1]:
+                contador += 1
+        print(f'Las ventas promedio mensual en {year[0]} son de: ${year[1]/contador}')

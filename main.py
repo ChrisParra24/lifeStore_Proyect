@@ -33,6 +33,8 @@ while estado_programa == 'ejecutando':
             bandera = True
             break
     if bandera==True:
+        productos_vendidos_cantidad = []
+        productos_buscados_cantidad = []
         # Aqui entramos al programa de Gerencia de Venta y debemos de poder crear nuestros reportes y estrategias
         # Hacemos un menu iterativo de nueva forma y hacemos uso de la variable estado_programa para que el mismo usuario sea
         # capaz de elegir que reporte quiere ver
@@ -41,13 +43,12 @@ while estado_programa == 'ejecutando':
             print('\nMenu Gerencia de Venta\n1.-Productos más vendidos y productos rezagados\n2.-Productos por reseña de servicio\n3.-Total de ingresos y ventas\n4.-Salir')
             opcion = int(input('Digite el numero de su elección: '))
             if opcion == 1:
-                primer_consigna(lifestore_products,lifestore_sales,5,'vendidos')
+                productos_vendidos_cantidad = primer_consigna(lifestore_products,lifestore_sales,5,'vendidos','ventas')
                 print('\n')
-                primer_consigna(lifestore_products,lifestore_searches,10,'buscados')
+                productos_buscados_cantidad = primer_consigna(lifestore_products,lifestore_searches,10,'buscados','busquedas')
             elif opcion == 2:
                 print('Opcion 2 seleccionada')
             elif opcion == 3:
-                print('\nLa tercer consigna es:')
                 tercer_consigna(lifestore_products,lifestore_sales)
             elif opcion == 4:
                 print(f"\n{mensaje_despedida}")
