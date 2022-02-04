@@ -1,7 +1,4 @@
 # Esta funcion nos sirve como parametro para ordenar por la cantidad de cada producto
-from tkinter import Y
-
-
 def myKey(e):
     return e[2]
 
