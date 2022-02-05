@@ -87,7 +87,7 @@ def tercer_consigna(productos,ventas):
                 year_venta = extrae_año(venta[3])
                 # Comparamos si la venta fue del producto en cuestion y comparamos si el año de la venta coincide
                 # con nuestra lista con los años de nuestra BD
-                if producto[0] == venta[1] and year == year_venta:
+                if producto[0] == venta[1] and year == year_venta and venta[4]==0:
                     cantidad += 1
             # Vamos haciendo la suma por año
             total += cantidad * producto[2]
@@ -108,7 +108,7 @@ def tercer_consigna(productos,ventas):
                 for venta in ventas:
                     year_venta = extrae_año(venta[3])
                     mes_venta = extrae_mes(venta[3])
-                    if producto[0] == venta[1] and year == year_venta and mes[0] == mes_venta:
+                    if producto[0] == venta[1] and year == year_venta and mes[0] == mes_venta and venta[4]==0:
                         cantidad += 1
                 total += cantidad * producto[2]
             ventas_por_meses.append([mes[1],year,total])
@@ -126,4 +126,5 @@ def tercer_consigna(productos,ventas):
         for venta_por_mes in ventas_por_meses:
             if year[0] == venta_por_mes[1]:
                 contador += 1
-        print(f'Las ventas promedio mensual en {year[0]} son de: ${year[1]/contador}')
+        if contador != 0:
+            print(f'Las ventas promedio mensual en {year[0]} son de: ${year[1]/contador}')
