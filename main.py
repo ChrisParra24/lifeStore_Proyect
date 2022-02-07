@@ -5,7 +5,7 @@ from lifestore_file import lifestore_products,lifestore_sales,lifestore_searches
 # lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund (1 for true or 0 to false)]
 # lifestore_products = [id_product, name, price, category, stock]
 
-from consignas import primer_consigna, tercer_consigna
+from consignas import conteo_productos, tercer_consigna, ventas_sin_reembolso
 
 ########################################################################################################################
 # Definimos los usuarios y contraseñas que podrán acceder a nuestro sistema de Gerencia de Venta
@@ -43,9 +43,9 @@ while estado_programa == 'ejecutando':
             print('\nMenu Gerencia de Venta\n1.-Productos más vendidos y productos rezagados\n2.-Productos por reseña de servicio\n3.-Total de ingresos y ventas\n4.-Salir')
             opcion = int(input('Digite el numero de su elección: '))
             if opcion == 1:
-                productos_vendidos_cantidad = primer_consigna(lifestore_products,lifestore_sales,5,'vendidos','ventas')
-                print('\n')
-                productos_buscados_cantidad = primer_consigna(lifestore_products,lifestore_searches,10,'buscados','busquedas')
+                ventas = ventas_sin_reembolso(lifestore_sales)
+                productos_ya_contados = conteo_productos(lifestore_products,ventas)
+                print(productos_ya_contados)
             elif opcion == 2:
                 print('Opcion 2 seleccionada')
             elif opcion == 3:

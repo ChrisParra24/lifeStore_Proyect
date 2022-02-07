@@ -1,50 +1,39 @@
 # Esta funcion nos sirve como parametro para ordenar por la cantidad de cada producto
 def myKey(e):
-    return e[2]
+    return e[1]
 
 # Funcion que limpia la lista
 def limpia_lista(lista):
     lista_limpia = []
     for elemento in lista:
-        if elemento[2] != 0:
+        if elemento[1] != 0:
             lista_limpia.append(elemento)
     return lista_limpia
 
+#Funcion que nos regresa las ventas sin las devoluciones
+def ventas_sin_reembolso(ventas):
+    ventas_sin_reembolso = []
+    for venta in ventas:
+        if venta[4] == 0:
+            #guardamos el id_venta y el id_product
+            ventas_sin_reembolso.append(venta[:4])
+    return ventas_sin_reembolso
 
-# Esta funcion nos sirve para resolver la primer consigna, solo basta con especificar los tamaños por este caso solo son dos
-def primer_consigna(productos,lista2,tamaño,palabra,palabra2):
-    productos_maximos = []
-     
+#Funcion que nos hace el conteo de nuestros productos vendidos
+def conteo_productos(productos,ventas):
+    productos_contabilizados = []
     for producto in productos:
-        cantidad = 0
-        for elemento in lista2:
-            # Buscamos que el producto que se esta iterando este en la otra lista y si lo encontramos
-            # sumamos en 1 nuestra variable cantidad, estamos contabilizando cuantas veces aparece el producto
-            # en la lista2 
-            if producto[0] == elemento[1]:
-                cantidad += 1
-        # Agregamos una lista en nuestra lista, los datos que ocupamos son el id_product, name, la cantidad, el precio de ese producto
-        # que aparece en la lista2
-        productos_maximos.append([producto[0],producto[1],cantidad,producto[2]])
+        contador = 0
+        for venta in ventas:
+            if producto[0] == venta[1]:
+                contador+=1
+        # agregamos el id_producto, y su respectiva cantidad
+        productos_contabilizados.append([producto[0],contador])
+    # acomodamos los productos
+    productos_limpios_contabilizados = limpia_lista(productos_contabilizados)
+    productos_limpios_contabilizados.sort(reverse=True,key=myKey)
+    return productos_limpios_contabilizados
     
-    # Aqui lo que hacemos es acomodar nuestra lista por medio de la cantidad de manera
-    # descendente
-    productos_maximos.sort(reverse=True,key=myKey)
-    productos_sin0 = limpia_lista(lista=productos_maximos)
-    # Tenemos que imprimir los datos que nos piden en la consigna
-    productos_impresion = productos_sin0[0:tamaño]
-    productos_impresion_menores = productos_sin0[len(productos_sin0)-(tamaño+1):len(productos_sin0)-1]
-    # imprimimos los n=tamaño productos
-    print(f'\n\nLos {tamaño} productos mas {palabra} son los siguientes:')
-    for producto in productos_impresion:
-        print(f'Producto: {producto[1]} con {producto[2]} {palabra2}')
-        
-    # # imprimimos los n=tamaño productos
-    print(f'\n\nLos {tamaño} productos menos {palabra} son los siguientes:')
-    for producto in productos_impresion_menores:
-        print(f'Producto: {producto[1]} con {producto[2]} {palabra2}')
-    return productos_sin0
-
 # Funcion que nos regresa los años
 def regresa_años(ventas):
     años = []
