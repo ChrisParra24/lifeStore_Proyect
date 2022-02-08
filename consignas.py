@@ -174,20 +174,20 @@ def tercer_consigna(productos,ventas):
                     if producto[0] == venta[1] and year == year_venta and mes[0] == mes_venta and venta[4]==0:
                         cantidad += 1
                 total += cantidad * producto[2]
-            ventas_por_meses.append([mes[1],year,total])
+            ventas_por_meses.append([mes[1],total,year])
     # Debemos de limpiar nuestra lista
     ventas_por_meses = limpia_lista(lista=ventas_por_meses)
     print()
     print('Los ingresos que se tuvieron por mes son los siguientes: ')
     for venta_por_mes in ventas_por_meses:
-        print(f'En {venta_por_mes[0]} del {venta_por_mes[1]} se tuvo ingresos por ${venta_por_mes[2]}')
+        print(f'En {venta_por_mes[0]} del {venta_por_mes[2]} se tuvo ingresos por ${venta_por_mes[1]}')
     
     # Sacamos las ventas promedio mensual de cada año
     print()
     for year in ventas_totales_por_year:
         contador = 0
         for venta_por_mes in ventas_por_meses:
-            if year[0] == venta_por_mes[1]:
+            if year[0] == venta_por_mes[2]:
                 contador += 1
         if contador != 0:
             print(f'Las ventas promedio mensual en {year[0]} son de: ${year[1]/contador}')
