@@ -5,7 +5,7 @@ from lifestore_file import lifestore_products,lifestore_sales,lifestore_searches
 # lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund (1 for true or 0 to false)]
 # lifestore_products = [id_product, name, price, category, stock]
 
-from consignas import conteo_productos, tercer_consigna, ventas_sin_reembolso
+from consignas import conteo_productos, muestra_menores_busquedas, muestra_primer_consigna_mas_ventas, muestra_primer_consigna_menos_ventas, productos_top, tercer_consigna, ventas_sin_reembolso,extrae_categorias,conteo_de_busquedas,muestra_mayores_busquedas
 
 ########################################################################################################################
 # Definimos los usuarios y contraseñas que podrán acceder a nuestro sistema de Gerencia de Venta
@@ -43,9 +43,19 @@ while estado_programa == 'ejecutando':
             print('\nMenu Gerencia de Venta\n1.-Productos más vendidos y productos rezagados\n2.-Productos por reseña de servicio\n3.-Total de ingresos y ventas\n4.-Salir')
             opcion = int(input('Digite el numero de su elección: '))
             if opcion == 1:
+                #-------------------------------ventas---------------------------------------------
                 ventas = ventas_sin_reembolso(lifestore_sales)
                 productos_ya_contados = conteo_productos(lifestore_products,ventas)
-                print(productos_ya_contados)
+                categorias = extrae_categorias(lifestore_products)
+                mis_productos_clasificados = productos_top(categorias,productos_ya_contados)
+                #impresion de las ventas
+                muestra_primer_consigna_mas_ventas(productos_ya_contados,5)
+                muestra_primer_consigna_menos_ventas(mis_productos_clasificados,categorias,'menos vendidos',5)
+                #--------------------------busquedas------------------------------------------
+                productos_con_busquedas = conteo_de_busquedas(lifestore_products,lifestore_searches)
+                muestra_mayores_busquedas(productos_con_busquedas,10)
+                diccionario_busquedas = productos_top(categorias=categorias,productos = productos_con_busquedas)
+                muestra_menores_busquedas(diccionario=diccionario_busquedas,categorias=categorias,tamaño=10)
             elif opcion == 2:
                 print('Opcion 2 seleccionada')
             elif opcion == 3:

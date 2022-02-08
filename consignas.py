@@ -10,6 +10,80 @@ def limpia_lista(lista):
             lista_limpia.append(elemento)
     return lista_limpia
 
+# Funcion que nos muestra los 10 productos con menores busquedas por categoria
+def muestra_menores_busquedas(diccionario,categorias,tamaño):
+    for categoria in categorias:
+        print(f'\nPara la categoria {categoria} los {tamaño} menos buscados fueron:')
+        lista = diccionario[categoria]
+        lista.sort(key=myKey)
+        lista = lista[:tamaño]
+        if len(lista) == 0:
+            print(f'Para la categoria "{categoria}" no hubo busquedas')
+        else:
+            for elemento in lista:
+                print(f'El producto con id: {elemento[0]} con {elemento[1]} busquedas')
+        
+
+
+
+# Funcion que muestra los 10 productos con mayores busquedas
+def muestra_mayores_busquedas(lista,tamaño):
+    elementos = lista[:tamaño]
+    print(f'\nLos {tamaño} productos mas buscados fueron:')
+    for elemento in elementos:
+        print(f'El producto con el id: {elemento[0]} con {elemento[1]} busquedas')
+
+# Funcion que cuenta el numero de busquedas
+def conteo_de_busquedas(productos,busquedas):
+    busquedas_contabilizadas = []
+    for producto in productos:
+        contador = 0
+        for  busqueda in busquedas:
+            if producto[0] == busqueda[1]:
+                contador += 1
+        #guardamos el id_product, la cantidad, y la categoria
+        busquedas_contabilizadas.append([producto[0],contador,producto[3]])
+    busquedas_limpias = limpia_lista(busquedas_contabilizadas)
+    busquedas_limpias.sort(key=myKey,reverse=True)
+    return busquedas_limpias
+
+# Funcion que extrae solo las categorias de los productos
+def extrae_categorias(productos):
+    categorias = []
+    for producto in productos:
+        if producto[3] not in categorias:
+            categorias.append(producto[3])
+    return categorias
+
+#Funcion que nos categorizara los productos junto con sus respectivas cantidades
+def productos_top(categorias,productos):
+    diccionario = {}
+    for categoria in categorias:
+        if categoria not in diccionario.keys():
+            diccionario[categoria] = []
+            for producto in productos:
+                if categoria == producto[2]:
+                    diccionario[categoria].append([producto[0],producto[1]])
+    return diccionario
+
+# Funcion que muestra los 5 productos de cada categoria con mas ventas resultados
+def muestra_primer_consigna_mas_ventas(productos_contabilizados,tamaño):
+    lista = productos_contabilizados[:tamaño]
+    print(f"\nLos {tamaño} productos con mayores ventas son:")
+    for elemento in lista:
+        print(f'El producto con id: {elemento[0]} con {elemento[1]} ventas')
+
+#Funcion que nos muestra los 5 productos con menos ventas
+def muestra_primer_consigna_menos_ventas(diccionario, categorias, palabra, tamaño):
+    for categoria in categorias:
+        print(f'\nEn la categoria de {categoria} los {tamaño} productos {palabra} fueron:')
+        lista = diccionario[categoria]
+        #acomodamos la lista en modo ascendente con base en la cantidad
+        lista.sort(key=myKey)
+        lista = lista[:tamaño]
+        for elemento in lista:
+            print(f'El producto con id: {elemento[0]} con {elemento[1]} piezas vendidas')
+
 #Funcion que nos regresa las ventas sin las devoluciones
 def ventas_sin_reembolso(ventas):
     ventas_sin_reembolso = []
@@ -27,8 +101,8 @@ def conteo_productos(productos,ventas):
         for venta in ventas:
             if producto[0] == venta[1]:
                 contador+=1
-        # agregamos el id_producto, y su respectiva cantidad
-        productos_contabilizados.append([producto[0],contador])
+        # agregamos el id_producto, cantidad y ademas de su categoria
+        productos_contabilizados.append([producto[0],contador,producto[3]])
     # acomodamos los productos
     productos_limpios_contabilizados = limpia_lista(productos_contabilizados)
     productos_limpios_contabilizados.sort(reverse=True,key=myKey)
