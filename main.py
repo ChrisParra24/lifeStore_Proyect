@@ -5,7 +5,7 @@ from lifestore_file import lifestore_products,lifestore_sales,lifestore_searches
 # lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund (1 for true or 0 to false)]
 # lifestore_products = [id_product, name, price, category, stock]
 
-from consignas import calificaciones_productos, conteo_productos, muestra_menores_busquedas, muestra_primer_consigna_mas_ventas, muestra_primer_consigna_menos_ventas, productos_top, promedio_reseñas, tercer_consigna, ventas_sin_reembolso,extrae_categorias,conteo_de_busquedas,muestra_mayores_busquedas
+from consignas import calificaciones_productos, conteo_productos, muestra_5_mejores_reseñas, muestra_5_peores_reseñas, muestra_menores_busquedas, muestra_primer_consigna_mas_ventas, muestra_primer_consigna_menos_ventas, productos_top, promedio_reseñas, tercer_consigna, ventas_sin_reembolso,extrae_categorias,conteo_de_busquedas,muestra_mayores_busquedas
 
 ########################################################################################################################
 # Definimos los usuarios y contraseñas que podrán acceder a nuestro sistema de Gerencia de Venta
@@ -59,7 +59,8 @@ while estado_programa == 'ejecutando':
             elif opcion == 2:
                 productos_con_reseñas = calificaciones_productos(lifestore_products,lifestore_sales)
                 productos_con_promedios = promedio_reseñas(productos_con_reseñas)
-                print(productos_con_promedios)
+                productos_5_mas_reseñas = muestra_5_mejores_reseñas(productos_con_promedios,5)
+                productos_5_peor_reseña = muestra_5_peores_reseñas(productos_con_promedios,5)
             elif opcion == 3:
                 tercer_consigna(lifestore_products,lifestore_sales)
             elif opcion == 4:

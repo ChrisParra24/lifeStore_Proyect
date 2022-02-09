@@ -151,11 +151,27 @@ def promedio_reseñas(diccionario):
             num_elementos = len(lista)
             prom = fsum(lista) / num_elementos
             frecuencia = lista.count(5)
-            #guardamos el id producto, el promedio, numero de elementos de lista,frecuencia de 5
-            promedios.append([key,prom,num_elementos,frecuencia])
+            #guardamos el id producto,frecuencia(numero de veces que aparece el 5), promedio de reseñas
+            promedios.append([key,frecuencia,prom])
+    promedios.sort(key=myKey,reverse=True)
     return promedios
 
+# Funcion que nos imprime los 5 productos con mas reseñas
+def muestra_5_mejores_reseñas(lista,tamaño):
+    lista_5_mejores = lista[:tamaño]
+    print(f'\nLos {tamaño} con mejores reseñas son:')
+    for elemento in lista_5_mejores:
+        print(f'El producto con id: {elemento[0]} con {elemento[1]} calificaciones de 5 estrellas dando un promedio de su reseña de {elemento[2]}')
+    return lista_5_mejores
 
+# Funcion que nos imprime los 5 productos con peores reseñas
+def muestra_5_peores_reseñas(lista,tamaño):
+    lista.sort(key=myKey)
+    lista_5_peores = lista[:tamaño]
+    print(f'\nLos {tamaño} con peores reseñas son:')
+    for elemento in lista_5_peores:
+        print(f'El producto con id: {elemento[0]} con {elemento[1]} calificaciones de 5 estrellas dando un promedio de su reseña de {elemento[2]}')
+    return lista_5_peores
 
 # Funcion que resolvera la tercer consigna sobre los ingresos totales anuales, mensuales
 def tercer_consigna(productos,ventas):
