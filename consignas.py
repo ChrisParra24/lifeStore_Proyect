@@ -1,3 +1,4 @@
+from math import fsum
 # Esta funcion nos sirve como parametro para ordenar por la cantidad de cada producto
 def myKey(e):
     return e[1]
@@ -23,9 +24,6 @@ def muestra_menores_busquedas(diccionario,categorias,tamaño):
             for elemento in lista:
                 print(f'El producto con id: {elemento[0]} con {elemento[1]} busquedas')
         
-
-
-
 # Funcion que muestra los 10 productos con mayores busquedas
 def muestra_mayores_busquedas(lista,tamaño):
     elementos = lista[:tamaño]
@@ -132,6 +130,32 @@ def extrae_año(fecha):
 def extrae_mes(fecha):
     mes = fecha[3:5]
     return int(mes)
+
+# Funcion que nos regresa los productos con sus calificaciones
+def calificaciones_productos(productos,ventas):
+    diccionario = {}
+    for producto in productos:
+        if producto[0] not in diccionario.keys():
+            diccionario[producto[0]] = []
+            for venta in ventas:
+                if venta[1] == producto[0]:
+                    diccionario[producto[0]].append(venta[2])
+    return diccionario
+
+# Funcion que nos calculara el promedio de reseñas de cada producto
+def promedio_reseñas(diccionario):
+    promedios = []
+    for key in diccionario.keys():
+        lista = diccionario[key]
+        if len(lista) > 0:
+            num_elementos = len(lista)
+            prom = fsum(lista) / num_elementos
+            frecuencia = lista.count(5)
+            #guardamos el id producto, el promedio, numero de elementos de lista,frecuencia de 5
+            promedios.append([key,prom,num_elementos,frecuencia])
+    return promedios
+
+
 
 # Funcion que resolvera la tercer consigna sobre los ingresos totales anuales, mensuales
 def tercer_consigna(productos,ventas):
